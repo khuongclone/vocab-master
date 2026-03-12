@@ -14,7 +14,271 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      courses: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      exams: {
+        Row: {
+          course_id: string
+          created_at: string | null
+          id: string
+          name: string
+          year: number
+        }
+        Insert: {
+          course_id: string
+          created_at?: string | null
+          id?: string
+          name: string
+          year: number
+        }
+        Update: {
+          course_id?: string
+          created_at?: string | null
+          id?: string
+          name?: string
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exams_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          display_name: string | null
+          id: string
+          last_study_date: string | null
+          streak_days: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          last_study_date?: string | null
+          streak_days?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          display_name?: string | null
+          id?: string
+          last_study_date?: string | null
+          streak_days?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          created_at: string | null
+          difficulty: number | null
+          due: string
+          elapsed_days: number | null
+          id: string
+          lapses: number | null
+          last_review: string | null
+          reps: number | null
+          scheduled_days: number | null
+          stability: number | null
+          state: number | null
+          updated_at: string | null
+          user_id: string
+          word_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          difficulty?: number | null
+          due?: string
+          elapsed_days?: number | null
+          id?: string
+          lapses?: number | null
+          last_review?: string | null
+          reps?: number | null
+          scheduled_days?: number | null
+          stability?: number | null
+          state?: number | null
+          updated_at?: string | null
+          user_id: string
+          word_id: string
+        }
+        Update: {
+          created_at?: string | null
+          difficulty?: number | null
+          due?: string
+          elapsed_days?: number | null
+          id?: string
+          lapses?: number | null
+          last_review?: string | null
+          reps?: number | null
+          scheduled_days?: number | null
+          stability?: number | null
+          state?: number | null
+          updated_at?: string | null
+          user_id?: string
+          word_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_word_id_fkey"
+            columns: ["word_id"]
+            isOneToOne: false
+            referencedRelation: "words"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sections: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string
+          sort_order: number | null
+          test_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name: string
+          sort_order?: number | null
+          test_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string
+          sort_order?: number | null
+          test_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sections_test_id_fkey"
+            columns: ["test_id"]
+            isOneToOne: false
+            referencedRelation: "tests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tests: {
+        Row: {
+          created_at: string | null
+          exam_id: string
+          id: string
+          name: string
+          sort_order: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          exam_id: string
+          id?: string
+          name: string
+          sort_order?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          exam_id?: string
+          id?: string
+          name?: string
+          sort_order?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tests_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "exams"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      words: {
+        Row: {
+          audio_url: string | null
+          created_at: string | null
+          difficulty: number | null
+          example: string | null
+          id: string
+          image_url: string | null
+          meaning: string
+          part_of_speech: string | null
+          pronunciation: string | null
+          section_id: string
+          sort_order: number | null
+          synonyms: string | null
+          word: string
+        }
+        Insert: {
+          audio_url?: string | null
+          created_at?: string | null
+          difficulty?: number | null
+          example?: string | null
+          id?: string
+          image_url?: string | null
+          meaning: string
+          part_of_speech?: string | null
+          pronunciation?: string | null
+          section_id: string
+          sort_order?: number | null
+          synonyms?: string | null
+          word: string
+        }
+        Update: {
+          audio_url?: string | null
+          created_at?: string | null
+          difficulty?: number | null
+          example?: string | null
+          id?: string
+          image_url?: string | null
+          meaning?: string
+          part_of_speech?: string | null
+          pronunciation?: string | null
+          section_id?: string
+          sort_order?: number | null
+          synonyms?: string | null
+          word?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "words_section_id_fkey"
+            columns: ["section_id"]
+            isOneToOne: false
+            referencedRelation: "sections"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
