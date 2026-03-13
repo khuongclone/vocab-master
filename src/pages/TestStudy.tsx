@@ -263,7 +263,7 @@ export default function TestStudyPage() {
               <div className="text-center py-16 text-muted-foreground">
                 Chưa có từ vựng trong section này.
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </main>
