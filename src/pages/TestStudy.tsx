@@ -6,6 +6,11 @@ import TopNav from '@/components/TopNav';
 import SectionSidebar from '@/components/SectionSidebar';
 import StudyModeTabs from '@/components/StudyModeTabs';
 import Flashcard from '@/components/Flashcard';
+import TypingMode from '@/components/TypingMode';
+import MultipleChoiceMode from '@/components/MultipleChoiceMode';
+import WordBlastMode from '@/components/WordBlastMode';
+import MatchingMode from '@/components/MatchingMode';
+import ListenMode from '@/components/ListenMode';
 import CompletionScreen from '@/components/CompletionScreen';
 import { useStudyStore } from '@/stores/studyStore';
 import { getSchedulingCards, createNewCard, Rating, type ReviewCard, type SchedulingResult } from '@/lib/fsrs';
@@ -198,12 +203,8 @@ export default function TestStudyPage() {
               <div className="text-center py-16 text-muted-foreground">Đang tải...</div>
             ) : isComplete ? (
               <CompletionScreen onRestart={() => setCurrentWordIndex(0)} />
-            ) : currentWord && studyMode === 'flashcard' ? (
-              <motion.div
-                key={currentWord.id}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-              >
+            ) : studyMode === 'flashcard' && currentWord ? (
+              <motion.div key={currentWord.id} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}>
                 <Flashcard
                   word={{
                     ...currentWord,
@@ -220,15 +221,49 @@ export default function TestStudyPage() {
                   total={words.length}
                 />
               </motion.div>
+            ) : studyMode === 'typing' && currentWord ? (
+              <motion.div key={currentWord.id} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}>
+                <TypingMode
+                  word={{ ...currentWord, pronunciation: currentWord.pronunciation || undefined, example: currentWord.example || undefined, audio_url: currentWord.audio_url || undefined, part_of_speech: currentWord.part_of_speech || undefined }}
+                  onAnswer={() => setCurrentWordIndex(currentWordIndex + 1)}
+                  currentIndex={currentWordIndex}
+                  total={words.length}
+                />
+              </motion.div>
+            ) : studyMode === 'multiple-choice' && currentWord ? (
+              <motion.div key={currentWord.id} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}>
+                <MultipleChoiceMode
+                  word={{ ...currentWord, pronunciation: currentWord.pronunciation || undefined, audio_url: currentWord.audio_url || undefined, part_of_speech: currentWord.part_of_speech || undefined }}
+                  allWords={words.map(w => ({ ...w, pronunciation: w.pronunciation || undefined, audio_url: w.audio_url || undefined, part_of_speech: w.part_of_speech || undefined }))}
+                  onAnswer={() => setCurrentWordIndex(currentWordIndex + 1)}
+                  currentIndex={currentWordIndex}
+                  total={words.length}
+                />
+              </motion.div>
+            ) : studyMode === 'word-blast' && words.length > 0 ? (
+              <WordBlastMode
+                words={words}
+                onComplete={() => {}}
+              />
+            ) : studyMode === 'matching' && words.length > 0 ? (
+              <MatchingMode
+                words={words}
+                onComplete={() => {}}
+              />
+            ) : studyMode === 'listen' && currentWord ? (
+              <motion.div key={currentWord.id} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}>
+                <ListenMode
+                  word={{ ...currentWord, pronunciation: currentWord.pronunciation || undefined, audio_url: currentWord.audio_url || undefined }}
+                  onAnswer={() => setCurrentWordIndex(currentWordIndex + 1)}
+                  currentIndex={currentWordIndex}
+                  total={words.length}
+                />
+              </motion.div>
             ) : words.length === 0 ? (
               <div className="text-center py-16 text-muted-foreground">
                 Chưa có từ vựng trong section này.
               </div>
-            ) : (
-              <div className="text-center py-16 text-muted-foreground">
-                Chế độ "{studyMode}" sẽ được cập nhật sớm. Hãy dùng Flashcard trước!
-              </div>
-            )}
+            ) : null}
           </div>
         </div>
       </main>
