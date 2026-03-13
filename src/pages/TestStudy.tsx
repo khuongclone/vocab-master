@@ -225,7 +225,8 @@ export default function TestStudyPage() {
               <motion.div key={currentWord.id} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}>
                 <TypingMode
                   word={{ ...currentWord, pronunciation: currentWord.pronunciation || undefined, example: currentWord.example || undefined, audio_url: currentWord.audio_url || undefined, part_of_speech: currentWord.part_of_speech || undefined }}
-                  onAnswer={() => setCurrentWordIndex(currentWordIndex + 1)}
+                  scheduling={scheduling}
+                  onRate={handleRate}
                   currentIndex={currentWordIndex}
                   total={words.length}
                 />
@@ -254,7 +255,8 @@ export default function TestStudyPage() {
               <motion.div key={currentWord.id} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }}>
                 <ListenMode
                   word={{ ...currentWord, pronunciation: currentWord.pronunciation || undefined, audio_url: currentWord.audio_url || undefined }}
-                  onAnswer={() => setCurrentWordIndex(currentWordIndex + 1)}
+                  scheduling={scheduling}
+                  onRate={handleRate}
                   currentIndex={currentWordIndex}
                   total={words.length}
                 />
