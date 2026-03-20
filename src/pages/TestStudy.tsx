@@ -164,7 +164,11 @@ export default function TestStudyPage() {
     }, { onConflict: 'user_id,word_id' });
 
     setReviews(prev => ({ ...prev, [currentWord.id]: card }));
-    setCurrentWordIndex(currentWordIndex + 1);
+    
+    // Only advance to next word if rating is not "Again"
+    if (rating !== Rating.Again) {
+      setCurrentWordIndex(currentWordIndex + 1);
+    }
   }
 
   return (
