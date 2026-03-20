@@ -11,6 +11,7 @@ import MultipleChoiceMode from '@/components/MultipleChoiceMode';
 import WordBlastMode from '@/components/WordBlastMode';
 import MatchingMode from '@/components/MatchingMode';
 import ListenMode from '@/components/ListenMode';
+import WordListPreview from '@/components/WordListPreview';
 import CompletionScreen from '@/components/CompletionScreen';
 import { useStudyStore } from '@/stores/studyStore';
 import { getSchedulingCards, createNewCard, Rating, type ReviewCard, type SchedulingResult } from '@/lib/fsrs';
