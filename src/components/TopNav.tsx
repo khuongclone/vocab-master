@@ -64,8 +64,8 @@ export default function TopNav({ dueCount = 0 }: TopNavProps) {
           {user ? (
             <>
               <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Flame className="h-4 w-4 text-warning" />
-                <span className="font-medium">0</span>
+                <Flame className={`h-4 w-4 ${streak > 0 ? 'text-warning' : 'text-muted-foreground'}`} />
+                <span className="font-medium">{streak}</span>
               </div>
               <Button variant="ghost" size="icon" onClick={signOut}>
                 <LogOut className="h-4 w-4" />
