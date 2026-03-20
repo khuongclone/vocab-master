@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { speakWord } from '@/lib/tts';
+import { useStudyStore } from '@/stores/studyStore';
 import { Rating, formatInterval, type SchedulingResult } from '@/lib/fsrs';
 
 interface Word {
