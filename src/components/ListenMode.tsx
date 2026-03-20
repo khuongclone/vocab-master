@@ -40,7 +40,7 @@ export default function ListenMode({ word, scheduling, onRate, currentIndex, tot
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [hintUsed, setHintUsed] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { accent } = useStudyStore();
 
   useEffect(() => {
     setInput('');
