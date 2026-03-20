@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuthStore } from '@/stores/authStore';
+import { useStreak } from '@/hooks/useStreak';
+import { useDueCount } from '@/hooks/useDueCount';
 import TopNav from '@/components/TopNav';
 import SectionSidebar from '@/components/SectionSidebar';
 import StudyModeTabs from '@/components/StudyModeTabs';
@@ -43,6 +45,8 @@ export default function TestStudyPage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { currentWordIndex, studyMode, setStudyMode, setCurrentWordIndex, reset, accent, setAccent } = useStudyStore();
+  const { recordStudy } = useStreak();
+  const dueCount = useDueCount();
 
   const [sections, setSections] = useState<Section[]>([]);
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -165,6 +169,9 @@ export default function TestStudyPage() {
 
     setReviews(prev => ({ ...prev, [currentWord.id]: card }));
     
+    // Record daily study for streak
+    recordStudy();
+    
     // Only advance to next word if rating is not "Again"
     if (rating !== Rating.Again) {
       setCurrentWordIndex(currentWordIndex + 1);
@@ -173,7 +180,7 @@ export default function TestStudyPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <TopNav />
+      <TopNav dueCount={dueCount} />
       <main className="container py-6">
         <div className="flex items-center gap-3 mb-6">
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>

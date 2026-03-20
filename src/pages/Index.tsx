@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
-import { BookOpen, Headphones, PenTool, FileText, ArrowRight, Flame } from 'lucide-react';
+import { BookOpen, Headphones, PenTool, FileText, ArrowRight, Flame, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TopNav from '@/components/TopNav';
 import { useAuthStore } from '@/stores/authStore';
+import { useDueCount } from '@/hooks/useDueCount';
+import { useStreak } from '@/hooks/useStreak';
 
 const categories = [
   {
@@ -37,10 +39,12 @@ const categories = [
 
 export default function HomePage() {
   const { user } = useAuthStore();
+  const dueCount = useDueCount();
+  const { streak, studiedToday } = useStreak();
 
   return (
     <div className="min-h-screen bg-background">
-      <TopNav />
+      <TopNav dueCount={dueCount} />
       
       <main className="container py-10">
         {/* Hero */}
@@ -70,6 +74,38 @@ export default function HomePage() {
             </Link>
           )}
         </motion.div>
+
+        {/* Streak & Due Cards */}
+        {user && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="flex flex-wrap justify-center gap-4 mb-10"
+          >
+            <div className="flex items-center gap-3 rounded-2xl border bg-card px-6 py-4 shadow-sm min-w-[180px]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-warning/10">
+                <Flame className={`h-5 w-5 ${streak > 0 ? 'text-warning' : 'text-muted-foreground'}`} />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-foreground">{streak}</p>
+                <p className="text-xs text-muted-foreground">
+                  {studiedToday ? 'Đã học hôm nay ✓' : 'Ngày streak'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 rounded-2xl border bg-card px-6 py-4 shadow-sm min-w-[180px]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-destructive/10">
+                <Zap className={`h-5 w-5 ${dueCount > 0 ? 'text-destructive' : 'text-muted-foreground'}`} />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-foreground">{dueCount}</p>
+                <p className="text-xs text-muted-foreground">Từ cần ôn tập</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
 
         {/* Category Grid */}
         <div className="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">

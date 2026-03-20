@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
-import { BookOpen, Headphones, FileText, PenTool, MoreHorizontal, LogIn, LogOut, User, Flame, Volume2 } from 'lucide-react';
+import { BookOpen, Headphones, FileText, PenTool, MoreHorizontal, LogIn, LogOut, Flame, Volume2 } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
+import { useStreak } from '@/hooks/useStreak';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -21,6 +22,7 @@ interface TopNavProps {
 export default function TopNav({ dueCount = 0 }: TopNavProps) {
   const location = useLocation();
   const { user, signOut } = useAuthStore();
+  const { streak } = useStreak();
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
@@ -62,8 +64,8 @@ export default function TopNav({ dueCount = 0 }: TopNavProps) {
           {user ? (
             <>
               <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Flame className="h-4 w-4 text-warning" />
-                <span className="font-medium">0</span>
+                <Flame className={`h-4 w-4 ${streak > 0 ? 'text-warning' : 'text-muted-foreground'}`} />
+                <span className="font-medium">{streak}</span>
               </div>
               <Button variant="ghost" size="icon" onClick={signOut}>
                 <LogOut className="h-4 w-4" />
