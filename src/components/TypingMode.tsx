@@ -38,6 +38,7 @@ const ratingConfig = [
 ];
 
 export default function TypingMode({ word, scheduling, onRate, currentIndex, total }: TypingModeProps) {
+  const { accent } = useStudyStore();
   const [input, setInput] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
