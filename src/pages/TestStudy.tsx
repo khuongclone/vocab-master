@@ -42,7 +42,7 @@ export default function TestStudyPage() {
   const { testId } = useParams<{ testId: string }>();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { currentWordIndex, studyMode, setStudyMode, setCurrentWordIndex, reset } = useStudyStore();
+  const { currentWordIndex, studyMode, setStudyMode, setCurrentWordIndex, reset, accent, setAccent } = useStudyStore();
 
   const [sections, setSections] = useState<Section[]>([]);
   const [activeSection, setActiveSection] = useState<string | null>(null);
