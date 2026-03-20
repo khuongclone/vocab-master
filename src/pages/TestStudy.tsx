@@ -169,6 +169,9 @@ export default function TestStudyPage() {
 
     setReviews(prev => ({ ...prev, [currentWord.id]: card }));
     
+    // Record daily study for streak
+    recordStudy();
+    
     // Only advance to next word if rating is not "Again"
     if (rating !== Rating.Again) {
       setCurrentWordIndex(currentWordIndex + 1);
