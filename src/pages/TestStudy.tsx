@@ -220,6 +220,8 @@ export default function TestStudyPage() {
 
             {loading ? (
               <div className="text-center py-16 text-muted-foreground">Đang tải...</div>
+            ) : studyMode === 'preview' ? (
+              <WordListPreview words={words} />
             ) : isComplete ? (
               <CompletionScreen onRestart={() => setCurrentWordIndex(0)} />
             ) : studyMode === 'flashcard' && currentWord ? (
