@@ -4,9 +4,11 @@ import { supabase } from '@/integrations/supabase/client';
 import TopNav from '@/components/TopNav';
 import CourseCard from '@/components/CourseCard';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Search, BookOpen } from 'lucide-react';
+import { Search, BookOpen, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 interface ExamWithTests {
   id: string;
@@ -76,6 +78,35 @@ export default function VocabPage() {
     setLoading(false);
   }
 
+  async function exportAllWords() {
+    toast.info('Đang xuất dữ liệu...');
+    const { data: words, error } = await supabase
+      .from('words')
+      .select('word, meaning, pronunciation, part_of_speech, example, synonyms, difficulty, section_id')
+      .order('word');
+
+    if (error || !words?.length) {
+      toast.error('Không có dữ liệu để xuất');
+      return;
+    }
+
+    const header = 'word,meaning,pronunciation,part_of_speech,example,synonyms,difficulty';
+    const csvRows = words.map(w => 
+      [w.word, w.meaning, w.pronunciation ?? '', w.part_of_speech ?? '', w.example ?? '', w.synonyms ?? '', w.difficulty ?? 1]
+        .map(v => `"${String(v).replace(/"/g, '""')}"`)
+        .join(',')
+    );
+    const csv = [header, ...csvRows].join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `vocab_export_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast.success(`Đã xuất ${words.length} từ vựng`);
+  }
+
   const years = [...new Set(exams.map(e => e.year))].sort((a, b) => b - a);
   const defaultTab = years[0]?.toString() || '2026';
 
@@ -84,13 +115,19 @@ export default function VocabPage() {
       <TopNav />
       <main className="container py-8">
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
-              <BookOpen className="h-5 w-5 text-primary" />
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10">
+                <BookOpen className="h-5 w-5 text-primary" />
+              </div>
+              <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                Chinh phục Từ vựng TOEIC
+              </h1>
             </div>
-            <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground">
-              Chinh phục Từ vựng TOEIC
-            </h1>
+            <Button variant="outline" size="sm" onClick={exportAllWords} className="gap-2">
+              <Download className="h-4 w-4" />
+              Export CSV
+            </Button>
           </div>
           <p className="text-muted-foreground mb-6">Chọn bộ đề để bắt đầu học từ vựng</p>
 
