@@ -45,6 +45,8 @@ export default function TestStudyPage() {
   const navigate = useNavigate();
   const { user } = useAuthStore();
   const { currentWordIndex, studyMode, setStudyMode, setCurrentWordIndex, reset, accent, setAccent } = useStudyStore();
+  const { recordStudy } = useStreak();
+  const dueCount = useDueCount();
 
   const [sections, setSections] = useState<Section[]>([]);
   const [activeSection, setActiveSection] = useState<string | null>(null);
