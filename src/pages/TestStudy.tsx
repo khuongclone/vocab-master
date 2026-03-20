@@ -180,7 +180,7 @@ export default function TestStudyPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <TopNav />
+      <TopNav dueCount={dueCount} />
       <main className="container py-6">
         <div className="flex items-center gap-3 mb-6">
           <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
