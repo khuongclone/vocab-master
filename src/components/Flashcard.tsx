@@ -28,15 +28,16 @@ interface FlashcardProps {
 
 export default function Flashcard({ word, scheduling, onRate, currentIndex, total }: FlashcardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const { accent } = useStudyStore();
 
   const handleSpeak = useCallback(() => {
     if (word.audio_url) {
       const audio = new Audio(word.audio_url);
       audio.play();
     } else {
-      speakWord(word.word);
+      speakWord(word.word, accent === 'uk' ? 'en-GB' : 'en-US');
     }
-  }, [word]);
+  }, [word, accent]);
 
   const handleFlip = () => setIsFlipped(!isFlipped);
 

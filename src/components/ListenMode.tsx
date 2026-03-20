@@ -58,9 +58,9 @@ export default function ListenMode({ word, scheduling, onRate, currentIndex, tot
     if (word.audio_url) {
       new Audio(word.audio_url).play();
     } else {
-      speakWord(word.word);
+      speakWord(word.word, accent === 'uk' ? 'en-GB' : 'en-US');
     }
-  }, [word]);
+  }, [word, accent]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
