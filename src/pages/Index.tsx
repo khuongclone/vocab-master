@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
-import { BookOpen, Headphones, PenTool, FileText, ArrowRight, Flame } from 'lucide-react';
+import { BookOpen, Headphones, PenTool, FileText, ArrowRight, Flame, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TopNav from '@/components/TopNav';
 import { useAuthStore } from '@/stores/authStore';
+import { useDueCount } from '@/hooks/useDueCount';
+import { useStreak } from '@/hooks/useStreak';
 
 const categories = [
   {
