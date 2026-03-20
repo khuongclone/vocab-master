@@ -4,6 +4,7 @@ import { Check, X, Volume2, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { speakWord } from '@/lib/tts';
+import { useStudyStore } from '@/stores/studyStore';
 import { Rating, formatInterval, type SchedulingResult } from '@/lib/fsrs';
 
 interface Word {
@@ -37,6 +38,7 @@ const ratingConfig = [
 ];
 
 export default function TypingMode({ word, scheduling, onRate, currentIndex, total }: TypingModeProps) {
+  const { accent } = useStudyStore();
   const [input, setInput] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -55,9 +57,9 @@ export default function TypingMode({ word, scheduling, onRate, currentIndex, tot
     if (word.audio_url) {
       new Audio(word.audio_url).play();
     } else {
-      speakWord(word.word);
+      speakWord(word.word, accent === 'uk' ? 'en-GB' : 'en-US');
     }
-  }, [word]);
+  }, [word, accent]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

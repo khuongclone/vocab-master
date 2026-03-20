@@ -11,6 +11,7 @@ import MultipleChoiceMode from '@/components/MultipleChoiceMode';
 import WordBlastMode from '@/components/WordBlastMode';
 import MatchingMode from '@/components/MatchingMode';
 import ListenMode from '@/components/ListenMode';
+import WordListPreview from '@/components/WordListPreview';
 import CompletionScreen from '@/components/CompletionScreen';
 import { useStudyStore } from '@/stores/studyStore';
 import { getSchedulingCards, createNewCard, Rating, type ReviewCard, type SchedulingResult } from '@/lib/fsrs';
@@ -41,7 +42,7 @@ export default function TestStudyPage() {
   const { testId } = useParams<{ testId: string }>();
   const navigate = useNavigate();
   const { user } = useAuthStore();
-  const { currentWordIndex, studyMode, setStudyMode, setCurrentWordIndex, reset } = useStudyStore();
+  const { currentWordIndex, studyMode, setStudyMode, setCurrentWordIndex, reset, accent, setAccent } = useStudyStore();
 
   const [sections, setSections] = useState<Section[]>([]);
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -163,7 +164,11 @@ export default function TestStudyPage() {
     }, { onConflict: 'user_id,word_id' });
 
     setReviews(prev => ({ ...prev, [currentWord.id]: card }));
-    setCurrentWordIndex(currentWordIndex + 1);
+    
+    // Only advance to next word if rating is not "Again"
+    if (rating !== Rating.Again) {
+      setCurrentWordIndex(currentWordIndex + 1);
+    }
   }
 
   return (
@@ -195,12 +200,28 @@ export default function TestStudyPage() {
 
           {/* Main content */}
           <div className="flex-1">
-            <div className="mb-6">
+            <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
               <StudyModeTabs active={studyMode} onChange={(m) => setStudyMode(m as any)} />
+              <div className="flex items-center gap-1 rounded-lg bg-accent p-1">
+                <button
+                  onClick={() => setAccent('us')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${accent === 'us' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                >
+                  🇺🇸 US
+                </button>
+                <button
+                  onClick={() => setAccent('uk')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${accent === 'uk' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                >
+                  🇬🇧 UK
+                </button>
+              </div>
             </div>
 
             {loading ? (
               <div className="text-center py-16 text-muted-foreground">Đang tải...</div>
+            ) : studyMode === 'preview' ? (
+              <WordListPreview words={words} />
             ) : isComplete ? (
               <CompletionScreen onRestart={() => setCurrentWordIndex(0)} />
             ) : studyMode === 'flashcard' && currentWord ? (

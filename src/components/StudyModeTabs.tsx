@@ -1,7 +1,8 @@
 import { cn } from '@/lib/utils';
-import { Layers, Keyboard, CheckSquare, Zap, GitMerge, Headphones } from 'lucide-react';
+import { Layers, Keyboard, CheckSquare, Zap, GitMerge, Headphones, List } from 'lucide-react';
 
 const modes = [
+  { key: 'preview' as const, label: 'Preview', icon: List },
   { key: 'flashcard' as const, label: 'Flashcard', icon: Layers },
   { key: 'typing' as const, label: 'Typing', icon: Keyboard },
   { key: 'multiple-choice' as const, label: 'Multiple Choice', icon: CheckSquare },

@@ -4,6 +4,7 @@ import { Volume2, Check, X, Headphones, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { speakWord } from '@/lib/tts';
+import { useStudyStore } from '@/stores/studyStore';
 import { Rating, formatInterval, type SchedulingResult } from '@/lib/fsrs';
 
 interface Word {
@@ -39,6 +40,7 @@ export default function ListenMode({ word, scheduling, onRate, currentIndex, tot
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [hintUsed, setHintUsed] = useState(false);
+  const { accent } = useStudyStore();
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -56,9 +58,9 @@ export default function ListenMode({ word, scheduling, onRate, currentIndex, tot
     if (word.audio_url) {
       new Audio(word.audio_url).play();
     } else {
-      speakWord(word.word);
+      speakWord(word.word, accent === 'uk' ? 'en-GB' : 'en-US');
     }
-  }, [word]);
+  }, [word, accent]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

@@ -8,11 +8,12 @@ export function speakWord(word: string, lang: string = 'en-US'): void {
   utterance.rate = 0.85;
   utterance.pitch = 1;
   
-  // Try to find a good English voice
   const voices = window.speechSynthesis.getVoices();
-  const englishVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Google')) 
+  const langPrefix = lang.startsWith('en-GB') ? 'en-GB' : 'en-US';
+  const voice = voices.find(v => v.lang === langPrefix && v.name.includes('Google'))
+    || voices.find(v => v.lang === langPrefix)
     || voices.find(v => v.lang.startsWith('en'));
-  if (englishVoice) utterance.voice = englishVoice;
+  if (voice) utterance.voice = voice;
   
   window.speechSynthesis.speak(utterance);
 }
