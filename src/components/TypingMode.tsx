@@ -4,6 +4,7 @@ import { Check, X, Volume2, Lightbulb } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { speakWord } from '@/lib/tts';
+import { useStudyStore } from '@/stores/studyStore';
 import { Rating, formatInterval, type SchedulingResult } from '@/lib/fsrs';
 
 interface Word {
