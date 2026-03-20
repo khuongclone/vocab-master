@@ -39,10 +39,12 @@ const categories = [
 
 export default function HomePage() {
   const { user } = useAuthStore();
+  const dueCount = useDueCount();
+  const { streak, studiedToday } = useStreak();
 
   return (
     <div className="min-h-screen bg-background">
-      <TopNav />
+      <TopNav dueCount={dueCount} />
       
       <main className="container py-10">
         {/* Hero */}
