@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
-import { BookOpen, Headphones, FileText, PenTool, MoreHorizontal, LogIn, LogOut, User, Flame, Volume2 } from 'lucide-react';
+import { BookOpen, Headphones, FileText, PenTool, MoreHorizontal, LogIn, LogOut, Flame, Volume2 } from 'lucide-react';
 import { useAuthStore } from '@/stores/authStore';
+import { useStreak } from '@/hooks/useStreak';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
