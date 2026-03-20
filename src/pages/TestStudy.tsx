@@ -200,8 +200,22 @@ export default function TestStudyPage() {
 
           {/* Main content */}
           <div className="flex-1">
-            <div className="mb-6">
+            <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
               <StudyModeTabs active={studyMode} onChange={(m) => setStudyMode(m as any)} />
+              <div className="flex items-center gap-1 rounded-lg bg-accent p-1">
+                <button
+                  onClick={() => setAccent('us')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${accent === 'us' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                >
+                  🇺🇸 US
+                </button>
+                <button
+                  onClick={() => setAccent('uk')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${accent === 'uk' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+                >
+                  🇬🇧 UK
+                </button>
+              </div>
             </div>
 
             {loading ? (
