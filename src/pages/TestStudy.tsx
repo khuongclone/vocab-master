@@ -2,6 +2,8 @@ import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuthStore } from '@/stores/authStore';
+import { useStreak } from '@/hooks/useStreak';
+import { useDueCount } from '@/hooks/useDueCount';
 import TopNav from '@/components/TopNav';
 import SectionSidebar from '@/components/SectionSidebar';
 import StudyModeTabs from '@/components/StudyModeTabs';
