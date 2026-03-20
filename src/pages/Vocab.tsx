@@ -4,9 +4,11 @@ import { supabase } from '@/integrations/supabase/client';
 import TopNav from '@/components/TopNav';
 import CourseCard from '@/components/CourseCard';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Search, BookOpen } from 'lucide-react';
+import { Search, BookOpen, Download } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from 'sonner';
 
 interface ExamWithTests {
   id: string;
